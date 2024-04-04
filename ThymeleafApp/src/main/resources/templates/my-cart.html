@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+</head>
+<body>
+<div th:replace="index :: navbar"></div>
+
+<h1 th:text="'Cart of '+${session.username}"></h1>
+  <div >
+      <table class="table">
+          <tr>
+              <td>Product ID</td>
+              <td>Product Name</td>
+              <td>Product SKU</td>
+              <td>Avaiable Quantity</td>
+              <td>Quantity</td>
+              <td>Total</td>
+              <td>Action</td>
+          </tr>
+          <th:block th:if="${carts != null}">
+          <th:block th:each="cartItem: ${carts.cartItems}" >
+              <tr>
+                  <td th:text="${cartItem.product.product_id}"></td>
+                  <td th:text="${cartItem.product.name}"></td>
+                  <td th:text="${cartItem.product.sku}"></td>
+                  <td th:text="${cartItem.product.quantity}"></td>
+                  <td th:text="${cartItem.quantity}"></td>
+                  <td th:text="${cartItem.quantity * cartItem.product.price}"></td>
+                  <td>
+                      <a th:href="@{'increment-cart-quantity/'+${cartItem.product.product_id}+'/'+${cartItem.user.user_id}}" th:if="${cartItem.product.quantity} > ${cartItem.quantity}">+1 |</a>
+                      <a th:href="@{'decrement-cart-quantity/'+${cartItem.product.product_id}+'/'+${cartItem.user.user_id}}" th:if="${cartItem.quantity > 1}"> -1 |</a>
+                      <a th:href="@{'remove-from-cart/'+${carts.cart_id}+'/'+${cartItem.cart_item_id}}" > Remove</a>
+                  </td>
+              </tr>
+          </th:block>
+          </th:block>
+      </table>
+      <h3>Grand Total:</h3> <strong><span th:text="${totalAmount}"></span></strong>
+      <th:block th:if="${carts != null}">
+        <a th:href="@{'add-to-checkout/'+${carts.cart_id}+'?amount='+${totalAmount}}" th:if="${not #lists.isEmpty(carts.cartItems)}">Proceed to Checkout</a>
+      </th:block>
+  </div>
+</body>
+</html>

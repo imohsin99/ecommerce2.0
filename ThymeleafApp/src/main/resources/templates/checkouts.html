@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Checkouts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div th:replace="index :: navbar"></div>
+  <h2>Checkouts</h2>
+  <table class="table">
+      <tr>
+          <td>Checkout Id</td>
+          <td>Status</td>
+          <td>Action</td>
+      </tr>
+    <th:block  th:each="checkout:${checkouts}">
+        <tr>
+        <td th:text="${checkout.checkout_id}"></td>
+        <td th:text="${checkout.status}"></td>
+        <td><a th:href="@{'/checkout/'+${checkout.checkout_id}}">Open</a></td>
+        </tr>
+    </th:block>
+  </table>
+</body>
+</html>

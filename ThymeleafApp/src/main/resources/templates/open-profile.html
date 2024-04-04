@@ -1,0 +1,119 @@
+<!doctype html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+</head>
+<body>
+<div th:replace="index :: navbar"></div>
+
+<h2 align="center">User Registration</h2>
+    <form th:action="@{/update-user}" method="post" onsubmit="return check_data()"  class="text-center" enctype="multipart/form-data" style="border: 1px solid black; width: 60%;text-align: center; margin: auto;" >
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name"  th:field="${user.name}">
+        <strong style="color:red;display: none;" id="name_validator">Name can not be empty</strong> <br>
+
+        <label for="user_name">User Name:</label>
+        <input type="text" class="form-control" id="user_name"  th:field="${user.user_name}">
+        <strong  style="color:red;display: none;" id="username_validator">Username can not be empty</strong> <br>
+        <strong th:if="${issue == 'Username_already_exists'}" style="color:red;">Username already exists</strong> <br>
+
+        <label for="cnic">CNIC</label>
+        <input type="text" class="form-control" id="cnic"  th:field="${user.cnic}">
+        <strong  style="color:red;display: none;" id="cnic_validator">Invalid CNIC</strong> <br>
+
+
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email"  th:field="${user.email}">
+        <strong  style="color:red;display: none;" id="email_validator">Email can not be empty</strong> <br>
+
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password"  th:field="${user.password}">
+        <strong style="color:red;display: none;" id="pass_validator">Password should be more than 5 characters</strong> <br>
+
+        <label for="password">Confirm Password</label>
+        <input type="password" class="form-control" id="cPassword"><br>
+        <strong id="c_pass_validator"></strong>
+
+
+        <label for="profile">Image</label>
+        <input type="file" class="form-control-file" id="profile"  name="file" accept="image/png, image/jpeg,image/jpg">
+        <strong style="color:red;display: none;" id="image_validator"></strong>
+
+        <br>
+
+
+        <button id="submit" class="btn btn-primary btn-block;color:red; mb-4" >Submit</button>
+
+    </form>
+</body>
+<script th:inline="javascript">
+
+
+    function check_data(){
+
+        if (document.getElementById("name").value.trim()==""){
+            document.getElementById("name_validator").style= "display:block;color:red;";
+            return false;
+        }
+        if (document.getElementById("user_name").value.trim()==""){
+            document.getElementById("username_validator").style= "display:block;color:red;";
+            return false;
+        }
+        if  (parseInt(document.getElementById("cnic").value)<= 0){
+            document.getElementById("cnic_validator").style= "display:block;color:red;";
+            return false;
+        }
+        if  (parseInt(document.getElementById("cnic").value).toString().length != 13){
+            document.getElementById("cnic_validator").style= "display:block;color:red;";
+            document.getElementById("cnic_validator").innerHTML= "Cnic should have 13 digits";
+            return false;
+        }
+        if (document.getElementById("email").value.trim()== "" ){
+            document.getElementById("email_validator").style= "display:block;color:red;";
+            return false;
+        }
+        if (document.getElementById("password").value.trim().length < 5 ){
+            document.getElementById("pass_validator").style= "display:block;color:red;";
+            return false;
+        }
+
+        if (document.getElementById("password").value != document.getElementById("cPassword").value ){
+            document.getElementById("c_pass_validator").style= "display:block;color:red;";
+            document.getElementById("c_pass_validator").innerHTML= "Confirm password not matched";
+            return false;
+        }
+        var pass = document.getElementById("password").value;
+
+        if (parseInt(pass).toString().length == pass.length)
+               {
+            console.log(parseInt(pass).toString().length == pass.length);
+            console.log(Number.isNaN(parseInt(pass)))
+            document.getElementById("pass_validator").innerHTML= "Password should be alphanumeric";
+            document.getElementById("pass_validator").style="display:block;color:red;";
+            return false;
+        }
+
+        var file = document.getElementById('profile').value;
+        if(file == ""){
+            return true;
+        }
+        const str = file.split(".");
+        if(str[1] != "jpg"  && str[1] != "jpeg"  && str[1] != "png")
+        {
+            document.getElementById("image_validator").innerHTML= "Image not valid";
+            document.getElementById("image_validator").style="display:block;color:red;";
+            alert("Image not valid")
+            return false
+        }
+
+        return true;
+
+
+    }
+</script>
+</html>

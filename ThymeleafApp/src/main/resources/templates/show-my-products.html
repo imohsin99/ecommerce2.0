@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Products</title>
+</head>
+
+<body style="text-align:center;margin:auto">
+<div th:replace="index :: navbar"></div>
+
+<h1 >My Products</h1>
+    <a href="add-product-page">Add Products</a>
+    <form th:action="@{/search/myproducts}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}"  placeholder="Search" size="50" >
+        <button type="submit" class="btn btn-info" >Search</button>
+        <button type="submit" class="btn btn-info" >Reset</button>
+    </form>
+    <div style="display: grid; grid-template-columns: auto auto auto;width:70%;justify:center;margin:auto;" >
+    <th:block th:each="product : ${products}" style="text-align:center;margin:auto;">
+        <div class="card" style="width: 18rem;">
+<!--            <img class="card-img-top" src="..." alt="Card image cap">-->
+            <div class="card-body" >
+                <h5 class="card-title" th:text="${product.name}" ></h5>
+                <p class="card-text" th:text="${product.description}"></p>
+                <strong th:text="${product.price}"></strong><br>
+                <a th:href="@{'/product/'+${product.product_id}+'/edit'}" class="btn btn-primary">Edit</a>
+                <a th:href="@{'/delete-product-by-id/'+${product.product_id}}" class="btn btn-primary">Delete</a>
+                <a th:href="@{'/open-product-by-id/'+${product.product_id}}" class="btn btn-primary">Open</a>
+            </div>
+        </div>
+    </th:block>
+</div>
+</body>
+<script th:inline="javascript">
+    var u = [[${issue}]]
+    if(u != null) {
+        alert("Can't delete.Because product is associated with other user checkout.You can make quantity zero for making it Out of Stock.")
+        const url = window.location.href.split("/");
+        console.log(url);
+        window.location.replace(url[0]+"//"+url[2]+"/"+"myproducts");
+
+    }
+    u = null
+</script>
+</html>

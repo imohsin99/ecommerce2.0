@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+</head>
+<body>
+<div th:replace="index :: navbar"></div>
+
+<h1 align="center">Add Comment for <span th:text="${productId}"></span></h1>
+<form th:action="@{'/save-comment/'+${productId}}" method="post"  class="text-center" style="border: 1px solid black; width: 60%;text-align: center; margin: auto;" >
+    <label for="comment">Comment:</label>
+    <input type="text" class="form-control" id="comment"  th:field="*{comment.description}">
+
+    <button class="btn btn-primary btn-block mb-4" >Submit</button>
+
+</form>
+
+</body>
+<script th:inline="javascript">
+    var u = [[${issue}]]
+    if(u != null) {
+        console.log(u)
+        alert(u)
+    }
+    u = null
+</script>
+</html>

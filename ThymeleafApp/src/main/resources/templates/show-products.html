@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Products</title>
+</head>
+
+<body style="text-align:center;">
+<div th:replace="index :: navbar"></div>
+
+<h1 >Products</h1>
+    <a href="add-product-page">Add Products</a>
+    <a href="myproducts" id="my-product-link" >Show My Products</a><br>
+    <form th:action="@{/search}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}"  placeholder="Search" size="50" >
+        <button type="submit" class="btn btn-info" >Search</button>
+        <button type="submit" class="btn btn-info" >Reset</button>
+    </form>
+    <div style="display: grid; grid-template-columns: auto auto auto;width:70%;justify:center;margin:auto;" >
+    <th:block th:each="product : ${products}" style="text-align:center;margin:auto;">
+        <div class="card" style="width: 18rem;">
+<!--            <img class="card-img-top" src="..." alt="Card image cap">-->
+            <div class="card-body" >
+                <h5 class="card-title" th:text="${product.name}" ></h5>
+                <p class="card-text" th:text="${product.description}"></p>
+                <strong th:text="${product.price}"></strong><br>
+                <a th:href="@{'/product/'+${product.product_id}}" class="btn btn-primary">Open</a>
+                <a th:href="@{'/add-product-to-cart/'+${product.product_id}}" th:if="${product.quantity} > 0 " class="btn btn-primary">Add to Cart</a>
+                <a  th:if="${product.quantity} <= 0 " class="btn btn-danger">Out of stock</a>
+            </div>
+        </div>
+
+    </th:block>
+</div>
+</body>
+<script th:inline="javascript">
+        var u = [[${issue}]]
+            if(u != null) {
+                console.log(u)
+                alert(u)
+            }
+            u = null
+    </script>
+</html>

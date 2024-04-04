@@ -1,0 +1,41 @@
+<!doctype html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>Sign IN</title>
+</head>
+<body style="text-align: center">
+    <h2>Sign In</h2>
+    <form th:action="@{/authenticate}" method="post" th:object="${user}" style="border: 1px solid black; width: 60%;text-align: center; margin: auto;" >
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example1">Email address</label>
+            <input type="email" id="form2Example1" class="form-control" th:field="*{email}"/>
+
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example2">Password</label>
+            <input type="password" id="form2Example2" class="form-control" th:field="*{password}"/>
+<!--            <a th:href="@{'/forgetPassword'}">Forgot password?</a>-->
+        </div>
+        <button class="btn btn-primary btn-block mb-4">Log In</button>
+    </form>
+
+</body>
+    <script th:inline="javascript">
+            var u = [[${auth}]]
+            if(u != null) {
+                console.log(u)
+                alert(u)
+                }
+            u = null
+    </script>
+
+</html>

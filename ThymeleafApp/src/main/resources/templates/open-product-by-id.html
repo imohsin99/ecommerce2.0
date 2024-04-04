@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Products</title>
+</head>
+
+<body style="text-align:center;margin:auto">
+<div th:replace="index :: navbar"></div>
+
+<h1 >Products</h1>
+    <div style="width:70%;text-align:center;margin:auto;" >
+
+        <table class="table">
+
+                <tr><th>Product Id</th><td th:text="${product.product_id}"></td></tr>
+                <tr><th>Name</th><td th:text="${product.name}"></td></tr>
+                <tr><th>SKU</th><td th:text="${product.sku}"></td></tr>
+                <tr><th>Description</th><td th:text="${product.description}"></td></tr>
+                <tr><th>Price</th><td th:text="${product.price}"></td></tr>
+                <tr><th>Quantity</th><td th:text="${product.quantity}"></td></tr>
+
+
+        </table>
+
+
+        <th:block th:if="${images[0] != 'null'}" >
+            <h5>Images</h5>
+            <th:block th:each="image: ${images}" >
+                <img th:src="${image}" style="display:inline" height="50%" width="60%">
+            </th:block>
+        </th:block>
+        <div style="width:70%;text-align:center;margin:auto;">
+            <h3>Comments: </h3>
+            <div th:if="${not #lists.isEmpty(product.comments)}">
+                <table style="border: 1px solid black;width:80%">
+                    <tr>
+                    <th>Comment BY:</th>
+                    <th>Comment:</th>
+                    </tr>
+                    <tr th:each="comment: ${product.comments}">
+                        <td th:text="${comment.user.user_name}"></td>
+                        <td th:text="${comment.description}"></td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
